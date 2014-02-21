@@ -1,0 +1,14 @@
+!!!
+%html
+  %head
+    %title Acervo ∞
+    %meta{charset: 'utf-8'}
+    = stylesheet_link_tag "app", media: "all"
+    = stylesheet_link_tag "http://fonts.googleapis.com/css?family=Gudea"
+    = javascript_include_tag "application"
+    = favicon_link_tag 'favicon.ico'
+    = csrf_meta_tags
+
+    %body
+      = render 'movies/menu'
+      = yield
