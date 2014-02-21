@@ -1,0 +1,9 @@
+*.sqlite3
+/log/*.log
+/.bundle
+/vendor
+/tmp
+
+/public/capas
+/public/torrents
+/public/files
