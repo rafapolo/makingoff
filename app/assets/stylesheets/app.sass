@@ -1,0 +1,106 @@
+// *= require jquery.ui.base
+// *= require jquery.ui.datepicker
+*
+  margin: 0px
+  padding: 0px
+
+body
+  background-image: url("/assets/texture.png")
+  font-family: 'Gudea', sans-serif
+  font-size: 15px
+
+#columns
+  padding-top: 5px
+  padding-left: 210px
+  margin: 0px 10px 10px 10px
+  column-width: 190px
+  -moz-column-width: 190px
+  -webkit-column-width: 190px
+
+.capa
+  width: 185px
+  background: lightgray
+  cursor: pointer
+  box-shadow: 5px 5px 10px rgba(34, 25, 25, 0.4)
+  margin: 0px 2px 15px
+  padding: 2px
+  -webkit-column-break-inside: avoid
+  -moz-column-break-inside: avoid
+  column-break-inside: avoid
+
+  img
+    width: 183px
+    min-height: 90px
+    border: 1px solid darkgrey
+    display: none
+    opacity: 0.5
+  p
+    text-shadow: 1px 1px whitesmoke
+    color: #333
+    text-align: center
+    margin: 5px
+    padding-bottom: 5px
+  &:hover
+    background: #BDBDBD
+
+#menu
+  width: 210px
+  height: 100%
+  opacity: 0.85
+  margin-top: 0px
+  color: whitesmoke
+  position: fixed
+  background-color: rgb(54,53,49)
+  margin-bottom: 20px
+  box-shadow: 7px 0px 5px rgba(34, 25, 25, 0.4)
+  .logo
+    border-bottom: 1px solid gray
+    font-size: 20px
+    text-align: center
+    padding: 10px
+  input
+    width: 183px
+    font-size: 18px
+    font-size: 14px
+
+#ano
+  padding-right: 8px
+  float: right
+  font-size: 13px
+
+#filters
+  padding: 10px
+  padding-bottom: 20px
+  border-bottom: 1px solid gray
+input
+  margin-bottom: 10px
+#filter-ano
+  padding: 10px
+  padding-bottom: 20px
+  border-bottom: 1px solid gray
+
+.sub
+  color: gray
+  font-size: 11px
+
+#info
+  padding: 10px
+  text-align: center
+
+// overwrite jquery-ui
+.ui-widget
+  font-size: 13px
+  width: 180px
+  max-height: 300px
+  overflow: auto
+.ui-autocomplete
+  position: fixed
+.ui-widget-header
+  background: gray
+.ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default
+  background: rgb(54,53,49)
+  border: 1px solid lightgray
+  width: 13px
+  cursor: crosshair
+.ui-autocomplete-term
+  font-weight: bold
