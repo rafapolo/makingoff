@@ -1,7 +1,24 @@
-class Makingoff
+module Makingoff
 
-  def clean txt
+  SEPARATOR = /,|\se\s|\/|\||;|-|\\|:|&|\n/
+  SEPARATOR_SEM_HIFEN = /,|\se\s|\/|\||;|\\|:|&|\n/
+
+  def self.clean txt
     txt.gsub('/', "-").gsub(/\)|\(|\./, '').gsub(/\s{2,}/, ' ').strip
+  end
+
+  def self.autentica!
+    puts "Autenticando...".yellow
+    browser = Mechanize.new
+    browser.user_agent_alias = 'Mac Safari'
+    browser.get('http://www.makingoff.org/forum/index.php') do |page|
+      page.form_with(:id => 'login') do |f|
+        f.ips_username  = 'polo'
+        f.ips_password = '*****'
+      end.click_button
+    end
+    puts "Ok".green
+    browser
   end
 
   def self.crawlear!
@@ -10,16 +27,7 @@ class Makingoff
     puts ("="*40).yellow
 
     # login
-    puts "Autenticando...".yellow
-    browser = Mechanize.new
-    browser.user_agent_alias = 'Mac Safari'
-    browser.get('http://www.makingoff.org/forum/index.php') do |page|
-      page.form_with(:id => 'login') do |f|
-        f.ips_username  = 'polo'
-        f.ips_password = '**********'
-      end.click_button
-    end
-    puts "Ok".green
+    browser = autentica
 
     # extração
     last_page = 768
@@ -47,14 +55,12 @@ class Makingoff
             puts "Já salvo".red
           else
 
-            SEPARATOR = /,|\se\s|\/|\||;|-|\\|:|&|\n/
             # diretores
-            diretor.split(SEPARATOR).each do{ |d| movie.directors << Director.find_or_create_by(:nome=>clean(d)) }
+            diretor.split(SEPARATOR_SEM_HIFEN).each{ |d| movie.directors << Director.find_or_create_by(:nome=>clean(d)) }
             # países
-            pais.split(SEPARATOR).each do{ |n| movie.countries << Country.find_or_create_by(:nome=>clean(n)) }
+            pais.split(SEPARATOR).each{ |n| movie.countries << Country.find_or_create_by(:nome=>clean(n)) }
             # generos
-            genero.split(SEPARATOR).each do{ |g| movie.genres << Genre.find_or_create_by(:nome=>clean(g).capitalize) }
-            movie.save
+            genero.split(SEPARATOR).each{ |g| movie.genres << Genre.find_or_create_by(:nome=>clean(g).capitalize) }
 
             begin
               # torrent, anexos e capa
@@ -84,4 +90,27 @@ class Makingoff
       end
     end
   end
+
+  def self.update_diretores(browser, mko_id)
+    begin
+      browser.get("http://makingoff.org/forum/index.php?showtopic=#{mko_id}") do |page|
+        campo = page.search(".bbc[text() ='Diretor: ']").first
+        if campo
+          diretores = campo.next.to_s.gsub('<br>', '')
+          m = Movie.where(mko_id: mko_id).take
+          puts "= #{m.mko_id} ==".yellow
+          m.directors = []
+          diretores = diretores.scan(/\">(.+)<\/a>/)[0][0] if diretores.index('</a>') # pega texto do link
+          diretores.split(SEPARATOR_SEM_HIFEN).each do |d|
+            nome = clean(d)
+            m.directors << Director.find_or_create_by(:nome=>nome) unless nome.empty?
+            m.save
+          end
+        end
+      end
+    rescue Exception => e
+      puts "#{e}".red
+    end
+  end
+
 end

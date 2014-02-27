@@ -15,7 +15,7 @@ require 'timeout'
 class TorrentInfo
 
   def initialize(path)
-    BEncodr.include!
+    return nil unless File.exists?(path)
     begin
       @torrent = File.bdecode(path)
     rescue BEncode::DecodeError => e
@@ -28,6 +28,11 @@ class TorrentInfo
     @torrent['info']['name'].strip
   end
 
+  def hash
+    return nil unless @torrent
+    Digest::SHA1.hexdigest(@torrent["info"].bencode)
+  end
+
   def announce_list
     list = []
     if @torrent['announce-list']
@@ -37,6 +42,8 @@ class TorrentInfo
     else
       list << @torrent['announce']
     end
+    list << 'udp://tracker.openbittorrent.com:80'
+    list << 'udp://tracker.openbittorrent.com:80'
     list
   end
 
@@ -50,25 +57,14 @@ class TorrentInfo
     total_size
   end
 
-  def hash
-    Digest::SHA1.hexdigest(@torrent["info"].bencode)
-  end
-
-  def url_encode(str)
-    return CGI::escape([str].pack("H*"))
-  end
-
   def magnetic_link
     params = {}
     params[:xt] = "urn:btih:" << hash
     params[:dn] = CGI.escape(@torrent["info"]["name"])
-    params[:tr]
-    announce_list.each do |(tracker, _)|
-      params[:tr] << tracker
-    end
+    params[:tr] = announce_list
     magnet_uri  = "magnet:?xt=#{params.delete(:xt)}"
     magnet_uri << "&" << Rack::Utils.build_query(params)
-    magnetic_link
+    magnet_uri
   end
 
   def get_seeds_count
@@ -99,14 +95,13 @@ class TorrentInfo
     uniq_peers
   end
 
-  private
-  def valid_tracker t
+  def self.valid_tracker t
     # URL válida?
     return false if !t || !(t =~ /^#{URI::regexp}$/)
     tracker = Tracker.find_or_create_by(url: t)
     # primeira vez? salve
     return Tracker.find_or_create_by(url: t) if tracker == nil
-    # só use se tracker estiver vivo na última semana
+    # só valide se tracker estiver vivo na última semana
     tracker.last_alive_at && (tracker.last_alive_at > 1.week.ago) ? tracker : false
   end
 
