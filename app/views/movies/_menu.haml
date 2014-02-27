@@ -4,21 +4,24 @@
   #filters
     %p País
     %input{type: 'text', id: 'country'}
-
     %p Categoria
     %input{type: 'text', id: 'genre'}
-
     %p Diretor
     %input{type: 'text', id: 'director'}
-
     %p Filme
     %input{type: 'text', id: 'movie'}
 
+  / #filter-ano
+  /   %span Quando
+  /   %span#ano
+  /   #anos-range
 
-  #filter-ano
-    %span Quando
-    %span#ano
-    #anos-range
+  #meta
 
-  #info
+  #loading= image_tag 'loading.gif'
+  #logo= image_tag 'arvore.png'
+
+
+
+
 

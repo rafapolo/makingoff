@@ -1,0 +1,14 @@
+#todo
+  .capas.metainfo{page: @page, tipo: params[:tipo], tipo_id: params[:id]}
+
+    - @movies.each do |movie|
+      .capa{id: movie.id, ano: movie.ano}
+        = capa_image_for movie
+        %p= "#{movie.nome} - #{movie.ano}"
+        .label{class: "#{style_for(movie)}"}
+
+
+  %br
+  / %hr
+  / - @page = @page + 1
+  / %p.page_info= "de #{(@page-1) * 50} a #{@page*50}"
