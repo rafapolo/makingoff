@@ -29,7 +29,6 @@ GEM
     atomic (1.1.14)
     awesome_print (1.2.0)
     bencode (0.8.0)
-    bencodr (3.0.2)
     better_errors (1.1.0)
       coderay (>= 1.0.0)
       erubis (>= 2.6.6)
@@ -78,6 +77,9 @@ GEM
     jquery-ui-rails (4.0.4)
       jquery-rails
       railties (>= 3.1.0)
+    kaminari (0.14.1)
+      actionpack (>= 3.0.0)
+      activesupport (>= 3.0.0)
     libv8 (3.16.14.3)
     mail (2.5.4)
       mime-types (~> 1.16)
@@ -178,7 +180,6 @@ PLATFORMS
 
 DEPENDENCIES
   awesome_print
-  bencodr
   better_errors
   binding_of_caller
   coffee-rails
@@ -187,6 +188,7 @@ DEPENDENCIES
   haml-rails
   jquery-rails
   jquery-ui-rails
+  kaminari
   mechanize
   mina
   mysql2

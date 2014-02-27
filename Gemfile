@@ -1,13 +1,11 @@
 source 'https://rubygems.org'
 
-# framework
+# base
 gem 'rails'
-gem 'mysql2'
-gem 'puma'
-
-# torrent stuff
-gem 'torckapi'
-gem 'bencodr'
+gem 'mysql2'        # database
+gem 'puma'          # server
+gem 'kaminari'      # pagination
+gem 'torckapi'      # handle torrent trackers
 
 # assets
 gem 'jquery-rails'
@@ -16,16 +14,16 @@ gem 'haml-rails'
 gem 'sass-rails'
 gem 'coffee-rails'
 gem "therubyracer"
+gem "colored"
 
 group :development do
-	gem 'erd'
-	gem 'pry'
+  gem 'erd'
+  gem 'pry'
   gem 'pry-debugger'
-	gem 'mina'
+  gem 'mina'
   gem "mechanize"
-	gem 'awesome_print'
-  gem "colored"
-	gem 'rails-erd'
-	gem 'better_errors'
-	gem 'binding_of_caller'
+  gem 'awesome_print'
+  gem 'rails-erd'
+  gem 'better_errors'
+  gem 'binding_of_caller'
 end
