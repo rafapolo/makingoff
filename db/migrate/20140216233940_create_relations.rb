@@ -14,5 +14,16 @@ class CreateRelations < ActiveRecord::Migration
       t.integer :movie_id
       t.integer :director_id
     end
+
+    create_table 'movies_trackers', :id => false do |t|
+      t.integer :tracker_id
+      t.integer :movie_id
+    end
+
+    create_table 'movies_trackers', :id => false do |t|
+      t.integer :tracker_id
+      t.integer :movie_id
+    end
+
   end
 end

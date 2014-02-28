@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140220185223) do
+ActiveRecord::Schema.define(version: 20140227120017) do
 
   create_table "countries", force: true do |t|
     t.string   "nome"
@@ -25,11 +25,13 @@ ActiveRecord::Schema.define(version: 20140220185223) do
     t.integer "country_id"
   end
 
+  add_index "countries_movies", ["movie_id", "country_id"], name: "unique_index", unique: true, using: :btree
+
   create_table "directors", force: true do |t|
     t.string   "nome"
+    t.integer  "count"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "count"
   end
 
   create_table "directors_movies", id: false, force: true do |t|
@@ -37,17 +39,21 @@ ActiveRecord::Schema.define(version: 20140220185223) do
     t.integer "director_id"
   end
 
+  add_index "directors_movies", ["movie_id", "director_id"], name: "unique_index", unique: true, using: :btree
+
   create_table "genres", force: true do |t|
     t.string   "nome"
+    t.integer  "count"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "count"
   end
 
   create_table "genres_movies", id: false, force: true do |t|
     t.integer "movie_id"
     t.integer "genre_id"
   end
+
+  add_index "genres_movies", ["movie_id", "genre_id"], name: "unique_index", unique: true, using: :btree
 
   create_table "movies", force: true do |t|
     t.string   "nome"
@@ -60,12 +66,27 @@ ActiveRecord::Schema.define(version: 20140220185223) do
     t.string   "torrent_size", limit: 15
     t.string   "torrent_name"
     t.string   "torrent_hash", limit: 45
+    t.datetime "last_show"
+    t.string   "urlized"
+    t.text     "magnet_link"
+  end
+
+  create_table "movies_trackers", id: false, force: true do |t|
+    t.integer "tracker_id"
+    t.integer "movie_id"
+  end
+
+  create_table "seeds", force: true do |t|
+    t.integer  "movie_id"
+    t.integer  "count"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "trackers", force: true do |t|
     t.string   "url"
-    t.datetime "last_alive"
-    t.datetime "last_tried"
+    t.datetime "last_alive_at"
+    t.datetime "last_error_at"
   end
 
 end
