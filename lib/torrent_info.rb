@@ -20,8 +20,14 @@ class TorrentInfo
       @torrent = File.bdecode(path)
     rescue BEncode::DecodeError => e
       puts "#{e}".red
-      binding.pry if Rails.env.development? # debug
+      # binding.pry if Rails.env.development? # debug
+      return nil
     end
+    return nil unless valid?
+  end
+
+  def valid?
+    (@torrent && @torrent["info"]) ? true : false
   end
 
   def name
@@ -29,7 +35,6 @@ class TorrentInfo
   end
 
   def hash
-    return nil unless @torrent
     Digest::SHA1.hexdigest(@torrent["info"].bencode)
   end
 
@@ -42,9 +47,9 @@ class TorrentInfo
     else
       list << @torrent['announce']
     end
-    list << 'udp://tracker.openbittorrent.com:80'
-    list << 'udp://tracker.openbittorrent.com:80'
-    list
+    list << 'udp://tracker.openbittorrent.com:80/announce'
+    list << 'udp://tracker.publicbt.com:80/announce'
+    list.uniq
   end
 
   def size
@@ -57,7 +62,7 @@ class TorrentInfo
     total_size
   end
 
-  def magnetic_link
+  def magnet_link
     params = {}
     params[:xt] = "urn:btih:" << hash
     params[:dn] = CGI.escape(@torrent["info"]["name"])
@@ -95,7 +100,7 @@ class TorrentInfo
     uniq_peers
   end
 
-  def self.valid_tracker t
+  def valid_tracker t
     # URL válida?
     return false if !t || !(t =~ /^#{URI::regexp}$/)
     tracker = Tracker.find_or_create_by(url: t)
