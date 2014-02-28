@@ -194,6 +194,9 @@ GEM
       polyglot
       polyglot (>= 0.3.1)
     tzinfo (0.3.38)
+    uglifier (2.4.0)
+      execjs (>= 0.3.0)
+      json (>= 1.8.0)
     unf (0.1.2)
       unf_ext
     unf_ext (0.0.6)
@@ -227,3 +230,4 @@ DEPENDENCIES
   slim
   therubyracer
   torckapi
+  uglifier
