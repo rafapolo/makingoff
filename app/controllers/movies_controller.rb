@@ -1,13 +1,29 @@
 class MoviesController < ApplicationController
   before_action :set_movie, only: [:show, :edit, :update, :destroy]
 
-  def index
-    page = params[:page] || 1
-    @movies = Movie.limit(50)
+  def list
+    @page = params[:page] || 1
+    @page= @page.to_i
+
+    tipo = params[:tipo]
+    id = params[:id]
+    # only reply ajax with full params
+    return if !tipo || !id || (!request.xhr? && Rails.env.production?)
+
+    @movies = (tipo == 'movie') ? [Movie.find(id)] :
+      tipo.capitalize.constantize.find(id).movies.page(@page).per(50)
+
+    render 'list', layout: false
   end
 
   def show
-
+    @movie.update(last_show: Time.now)
+    if request.xhr? # ajax
+      render 'show', layout: false
+    else
+      @movies = [@movie]
+      render 'list'
+    end
   end
 
   def autocomplete
@@ -22,7 +38,7 @@ class MoviesController < ApplicationController
 
   private
     def set_movie
-      @movie = Movie.find(params[:id])
+      @movie = params[:urlized] ? Movie.find_by(urlized: params[:urlized]) : Movie.find(params[:id])
     end
 
     def movie_params
