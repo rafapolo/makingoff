@@ -13,8 +13,9 @@ gem 'jquery-ui-rails'
 gem 'haml-rails'
 gem 'sass-rails'
 gem 'coffee-rails'
-gem "therubyracer"
-gem "colored"
+gem 'therubyracer'
+gem 'uglifier'
+gem 'colored'
 
 group :development do
   gem 'erd'
