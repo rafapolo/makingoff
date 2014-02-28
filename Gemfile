@@ -21,7 +21,10 @@ group :development do
   gem 'pry'
   gem 'pry-debugger'
   gem 'mina'
-  gem "mechanize"
+  gem 'sidekiq'
+  gem 'sinatra', require: false
+  gem 'slim'
+  gem 'mechanize'
   gem 'awesome_print'
   gem 'rails-erd'
   gem 'better_errors'

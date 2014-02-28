@@ -3,13 +3,9 @@
 namespace :mko do
   desc "Atualiza seeds count"
   task :update_seeds => :environment do
-    Movie.where('count is null').each do |m|
-      torrent = m.torrent
-      if torrent
-        puts "== Movie #{m.id} =================".blue
-        m.update(count: torrent.get_seeds_count)
-      else
-        puts "== Movie #{m.id} sem torrent =================".red
+    Movie.all.each do |m|
+      if m.seeds.size < 1
+        PeersWorker.perform_async(m.id)
       end
     end
   end
@@ -33,9 +29,9 @@ namespace :mko do
 
   desc "Atualiza Movie torrent info"
   task :update_torrent_info => :environment do
-    Movie.all.each do |m|
+    Movie.where().each do |m|
       torrent = m.torrent
-      if torrent && torrent.hash
+      if torrent && torrent.valid?
         m.update(torrent_hash: torrent.hash)
         m.update(torrent_size: torrent.size)
         m.update(torrent_name: torrent.name.force_encoding('iso-8859-1').encode('utf-8'))
