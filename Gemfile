@@ -1,4 +1,5 @@
 source 'https://rubygems.org'
+ruby '2.0.0'
 
 # base
 gem 'rails'
@@ -6,6 +7,7 @@ gem 'mysql2'        # database
 gem 'puma'          # server
 gem 'kaminari'      # pagination
 gem 'torckapi'      # handle torrent trackers
+gem 'sidekiq'       # paralel jobs
 
 # assets
 gem 'jquery-rails'
@@ -22,7 +24,6 @@ group :development do
   gem 'pry'
   gem 'pry-debugger'
   gem 'mina'
-  gem 'sidekiq'
   gem 'sinatra', require: false
   gem 'slim'
   gem 'mechanize'
