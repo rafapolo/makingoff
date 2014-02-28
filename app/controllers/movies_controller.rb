@@ -17,7 +17,7 @@ class MoviesController < ApplicationController
   end
 
   def show
-    @movie.update(last_show: Time.now)
+    #@movie.update(last_show: Time.now)
     if request.xhr? # ajax
       render 'show', layout: false
     else
