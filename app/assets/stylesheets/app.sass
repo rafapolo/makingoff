@@ -1,5 +1,14 @@
 // *= require jquery.ui.base
 // *= require jquery.ui.datepicker
+
+$menu-width: 210px
+$shadow: 7px 7px 5px rgba(34, 25, 25, 0.4)
+
+$vermelho: #CC0000
+$amarelo: #FFEE00
+$laranja: #FF6633
+$verde: #009900
+
 *
   margin: 0px
   padding: 0px
@@ -8,26 +17,34 @@ body
   background-image: url("/assets/texture.png")
   font-family: 'Gudea', sans-serif
   font-size: 15px
+  min-width: 1035px
+  min-height: 420px
 
-#columns
+#meio
   padding-top: 5px
-  padding-left: 210px
+
+.capas
+  padding-top: 5px
+  padding-left: $menu-width
   margin: 0px 10px 10px 10px
   column-width: 190px
   -moz-column-width: 190px
   -webkit-column-width: 190px
 
+#raiz
+  position: fixed
+  bottom: 0px
+
 .capa
   width: 185px
   background: lightgray
+  display: inline-table
   cursor: pointer
   box-shadow: 5px 5px 10px rgba(34, 25, 25, 0.4)
   margin: 0px 2px 15px
-  padding: 2px
   -webkit-column-break-inside: avoid
   -moz-column-break-inside: avoid
   column-break-inside: avoid
-
   img
     width: 183px
     min-height: 90px
@@ -43,8 +60,24 @@ body
   &:hover
     background: #BDBDBD
 
+.label
+  width: 100%
+  height: 3px
+
+.border-preto
+  border-bottom: 3px solid black
+.border-vermelho
+  border-bottom: 3px solid $vermelho
+.border-amarelo
+  border-bottom: 3px solid $amarelo
+.border-laranja
+  border-bottom: 3px solid $laranja
+.border-verde
+  border-bottom: 3px solid $verde
+
 #menu
-  width: 210px
+  display: none
+  width: $menu-width
   height: 100%
   opacity: 0.85
   margin-top: 0px
@@ -52,7 +85,7 @@ body
   position: fixed
   background-color: rgb(54,53,49)
   margin-bottom: 20px
-  box-shadow: 7px 0px 5px rgba(34, 25, 25, 0.4)
+  box-shadow: $shadow
   .logo
     border-bottom: 1px solid gray
     font-size: 20px
@@ -83,9 +116,43 @@ input
   color: gray
   font-size: 11px
 
-#info
+#meta
   padding: 10px
+  font-weight: bold
   text-align: center
+  a
+    color: white
+
+#info
+  display: none
+  color: white
+  padding-left: $menu-width
+  width: 450px
+  box-shadow: $shadow
+  opacity: 1
+  margin: 0px auto
+  border: 1px solid gray
+  background-color: rgba(54,53,49,0.75)
+  margin-top: 50px
+  font-size: 16px
+  text-shadow: 2px 1px black
+  padding: 20px
+  p
+    padding-left: 5px
+    padding-bottom: 15px
+
+.small
+  font-size: 13px
+
+#loading
+  display: none
+  padding: 20px
+  text-align: center
+
+.page_info
+  width: $menu-width
+  text-align: center
+  color: white
 
 // overwrite jquery-ui
 .ui-widget
