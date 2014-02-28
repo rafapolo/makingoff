@@ -7,7 +7,6 @@ gem 'mysql2'        # database
 gem 'puma'          # server
 gem 'kaminari'      # pagination
 gem 'torckapi'      # handle torrent trackers
-gem 'sidekiq'       # paralel jobs
 
 # assets
 gem 'jquery-rails'
@@ -19,13 +18,16 @@ gem 'therubyracer'
 gem 'uglifier'
 gem 'colored'
 
+# parallel jobs
+gem 'sidekiq'
+gem 'sinatra', require: false
+gem 'slim'
+
 group :development do
   gem 'erd'
   gem 'pry'
   gem 'pry-debugger'
   gem 'mina'
-  gem 'sinatra', require: false
-  gem 'slim'
   gem 'mechanize'
   gem 'awesome_print'
   gem 'rails-erd'
