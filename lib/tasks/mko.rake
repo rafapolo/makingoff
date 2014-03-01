@@ -4,7 +4,7 @@ namespace :mko do
   desc "Atualiza seeds count"
   task :update_seeds => :environment do
     Movie.all.each do |m|
-      if m.seeds.size < 1
+      if m.seeds.size < 2
         PeersWorker.perform_async(m.id)
       end
     end

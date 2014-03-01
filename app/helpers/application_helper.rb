@@ -28,5 +28,4 @@ module ApplicationHelper
         'border-verde'
       end
   end
-
 end
