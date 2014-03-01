@@ -18,7 +18,7 @@ class MoviesController < ApplicationController
 
   def show
     #@movie.update(last_show: Time.now)
-    if request.xhr? # ajax
+    if request.xhr? # ajax?
       render 'show', layout: false
     else
       @movies = [@movie]
@@ -27,7 +27,7 @@ class MoviesController < ApplicationController
   end
 
   def autocomplete
-    return false if !params[:nome] || !params[:tipo]
+    return false if !params[:nome] || !params[:tipo] || !request.xhr?
     data = []
     classe = params[:tipo].capitalize.constantize
     classe.where("nome LIKE ?", "%#{params[:nome]}%").each do |d|
