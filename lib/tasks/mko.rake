@@ -10,6 +10,15 @@ namespace :mko do
     end
   end
 
+  task :update_magnets => :environment do
+    Movie.all.each do |m|
+      if m.torrent && m.torrent.valid?
+        puts "Magnetizando #{m.original}".yellow
+        m.update(magnet_link: m.torrent.magnet_link)
+      end
+    end
+  end
+
   desc "Corrige ano pelo IMDB"
   task :fix_ano => :environment do
     require 'open-uri'
