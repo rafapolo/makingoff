@@ -1,23 +1,25 @@
 %p= @movie.nome
-%p.small= "(#{@movie.original})" if @movie.nome != @movie.original && !@movie.original.empty?
+%p= "(#{@movie.original})" if @movie.nome != @movie.original && !@movie.original.empty?
 
-%p.small= @movie.ano
+%p= @movie.ano
+%br
+%p= @movie.countries.map{|g| g.nome}.join(', ')
 %br
 %p= @movie.genres.map{|g| g.nome}.join(', ')
-%p= @movie.directors.map{|g| g.nome}.join(', ')
-
 %br
+%p= @movie.directors.map{|g| g.nome}.join(', ')
+%br
+
 - if @movie.magnet_link
-  #magnet{style: 'padding: 8px'}
+  #magnet{style: 'padding: 4px'}
     %p
       [
       %a{href: @movie.magnet_link}
         = image_tag "magnet.gif"
-        Download
+        %span{class: "#{style_for(@movie)}"} Download
       ]
-  #peers
-    %p.small{class: "#{style_for(@movie)}", style:'display: inline-block'}= "#{@movie.count} peers"
-    %p.small= aprox_hours_ago(@movie.updated_at)
+  #peers.small
+    %p{style:'display: inline-block'}= "#{@movie.count} peers #{aprox_hours_ago(@movie.updated_at)}"
 - else
   %p [ Opz, sem link ]
 
