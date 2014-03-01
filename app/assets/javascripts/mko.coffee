@@ -1,5 +1,5 @@
 $ ->
-  document.title = "Acervo | ▲ 6539 ▼ 7102"
+  document.title = "Acervo | 14% ▲"
   window.loading = true
 
   $(document).ajaxStart -> $('#loading').fadeIn(300)
@@ -24,14 +24,14 @@ $ ->
       .load -> $(this).fadeIn 1500
       .error -> $(this).attr('src', 'http://graficautopica.net/assets/capas/00.jpg')
 
-    # em 3 segundos exibe todas as capas e libera próximas páginas pra carregar
+    # em 3 segundos exibe todas as capas e libera carregar próximas páginas
     setTimeout ->
       $("img").fadeIn(800)
       window.loading = false
     , 3000
 
   $(document).scroll ->
-    # carrega próximas páginas se já não estiver carregando, ainda há o que carregar e scroll está no fim da página
+    # carrega próximas páginas se já não estiver carregando, ainda há mais para carregar e scroll está no fim da página
     return if !window.loading && (window.to_load > $('.capa').size()) && ($(window).scrollTop() > $(document).height() - $(window).height() - 50)
       window.loading = true
       metainfo = $('.metainfo').last()
