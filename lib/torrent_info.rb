@@ -49,6 +49,7 @@ class TorrentInfo
     end
     list << 'udp://tracker.openbittorrent.com:80/announce'
     list << 'udp://tracker.publicbt.com:80/announce'
+    list << 'udp://tracker.istole.it:80/announce'
     list.uniq
   end
 
