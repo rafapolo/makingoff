@@ -8,3 +8,5 @@
 /public/torrents
 /public/files
 *.rdb
+
+config/database.yml
