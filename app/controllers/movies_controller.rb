@@ -1,6 +1,10 @@
 class MoviesController < ApplicationController
   before_action :set_movie, only: [:show, :edit, :update, :destroy]
 
+  def info
+    @percent_up = percent_up
+  end
+
   def list
     @page = params[:page] || 1
     @page= @page.to_i

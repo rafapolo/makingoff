@@ -1,5 +1,4 @@
 $ ->
-  document.title = "Acervo | 14% ▲"
   window.loading = true
 
   $(document).ajaxStart -> $('#loading').fadeIn(300)
