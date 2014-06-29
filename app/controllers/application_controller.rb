@@ -4,7 +4,7 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
 
   def percent_up
-    no_peer = Movie.preto.count + Movie.vermelho.count
+    no_peer = Movie.vermelho.count
     down_percent = (100 * no_peer) / Movie.count
     100 - down_percent # up %
   end

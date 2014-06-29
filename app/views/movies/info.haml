@@ -6,7 +6,6 @@
   - verde_count = Movie.verde.count
   - amarelo_count = Movie.amarelo.count
   - laranja_count = Movie.laranja.count
-  - preto_count = Movie.preto.count
   - vivos = Movie.vivos.count
 
   #info
@@ -24,9 +23,7 @@
       %span= link_to 'amarelo', '/status/amarelo', class: 'border border-amarelo', cor: 'amarelo', count: amarelo_count
       quando possui entre 2 e 8 seeds ativos e
       %span= link_to 'verde', '/status/verde', class: 'border border-verde', cor: 'verde', count: verde_count
-      mais de 8 garantidos. As capas com o rótulo
-      %span= link_to 'preto', '/status/preto', class: 'border border-preto', cor: 'preto', count: preto_count
-      não possuem torrents que os conectem.
+      mais de 8 garantidos.
 
       %p{style: 'padding: 0px'} Status:
       #status
@@ -34,7 +31,6 @@
         %div{style: "background-color: #FF6633; width: " + ((laranja_count * 100) / vivos).to_s + '%'}
         %div{style: "background-color: #FFEE00; width: " + ((amarelo_count * 100) / vivos).to_s + '%'}
         %div{style: "background-color: #009900; width: " + ((verde_count * 100) / vivos).to_s + '%'}
-        %div{style: "background-color: black; width: " + ((preto_count * 100) / vivos).to_s + '%'}
 
     %p{style: 'text-align: center'}
       Em tempos de mídias corrompidas não há tragédia maior que o esquecimento. Conheça. Cultive. Semeie. Discuta.

@@ -17,12 +17,12 @@ module ApplicationHelper
   def style_for m
     case m.count
       when nil
-        'border-preto'
+        'border-vermelho'
       when 0
         'border-vermelho'
-      when 1..5
+      when 1
         'border-laranja'
-      when 6..10
+      when 2..6
         'border-amarelo'
       else
         'border-verde'

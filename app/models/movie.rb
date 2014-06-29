@@ -6,8 +6,7 @@ class Movie < ActiveRecord::Base
   has_many :seeds
 
   scope :vivos, -> {where('count > 0')}
-  scope :preto, -> {where('torrent_hash is null')}
-  scope :vermelho, -> {where('count = 0')}
+  scope :vermelho, -> {where('count = 0 or count is null')}
   scope :laranja, -> {where('count = 1')}
   scope :amarelo, -> {where('count BETWEEN 2 AND 6')}
   scope :verde, -> {where('count > 6')}
