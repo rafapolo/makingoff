@@ -24,8 +24,8 @@ gem 'slim'
 
 group :development do
   gem 'erd'
-  gem 'pry'
-  gem 'pry-debugger'
+  # gem 'pry'
+  # gem 'pry-debugger'
   gem 'mina'
   gem 'mechanize'
   gem 'awesome_print'
