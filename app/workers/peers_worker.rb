@@ -10,6 +10,7 @@ class PeersWorker
       Seed.create(movie_id: movie.id, count: last_count)
       movie.update(count: last_count)
     else
+      movie.update(count: nil)
       puts "== Movie #{movie.id} sem torrent =================".red
     end
   end

@@ -4,7 +4,7 @@
 # created_at 13.out.2009
 # updated_at 21.fev.2014
 
-# TorrentInfo v0.6
+# TorrentInfo kernel v0.6
 # + SomBarato, BaixoGavea, MakingOff
 
 require 'digest/sha1'
@@ -55,9 +55,14 @@ class TorrentInfo
 
   def size
     total_size = 0
-    if @torrent['info'] && files = @torrent['info']['files']
-      files.each do |file|
-        total_size += file['length']
+    if @torrent['info']
+      if files = @torrent['info']['files']
+        files.each do |file|
+          total_size += file['length']
+        end
+      else
+        single_file_size = @torrent['info']['length'] || nil
+        total_size = single_file_size if single_file_size
       end
     end
     total_size
@@ -76,24 +81,25 @@ class TorrentInfo
   def get_seeds_count
     peers = []
     announce_list.each do |t|
-      if tracker = valid_tracker(t)
+      tracker = valid_tracker(t)
+      if tracker
         begin
           handler = Torckapi.tracker(t)
-          tracker_peers = []
+          tracker_seeds = []
           timeout(8) do
-            response = handler.announce(hash)
-            response.peers.each do |p|
-              tracker_peers << p[0]
-            end
+            response = handler.scrape([hash])
+            tracker_seeds = response.data[hash][:seeders]
+            # atualiza tracker: ok
             tracker.update(last_alive_at: DateTime.now)
           end
         rescue Exception => e
           puts "#{t} => #{e}".red
+          # atualiza tracker: erro. TODO: morto?
           tracker.update(last_error_at: DateTime.now)
         else
-          puts "#{t} => #{tracker_peers.count}".green if tracker_peers.count > 0
+          puts "#{t} => #{tracker_seeds}".green if tracker_seeds > 0
         end
-        peers << tracker_peers
+        peers << tracker_seeds
       end
     end
     uniq_peers = peers.flatten.uniq.size
@@ -103,12 +109,16 @@ class TorrentInfo
 
   def valid_tracker t
     # URL válida?
-    return false if !t || !(t =~ /^#{URI::regexp}$/)
-    tracker = Tracker.find_or_create_by(url: t)
-    # primeira vez? salve
-    return Tracker.find_or_create_by(url: t) if tracker == nil
-    # só valide se tracker estiver vivo na última semana
-    tracker.last_alive_at && (tracker.last_alive_at > 1.week.ago) ? tracker : false
+    return nil if !t || !(t =~ /^#{URI::regexp}$/)
+    tracker = Tracker.find_or_initialize_by(url: t)
+    # novo tracker?
+    if tracker.id == nil
+      tracker.save
+      return tracker
+    else
+      # só valide se tracker estiver vivo no último mês
+      return tracker.last_alive_at && (tracker.last_alive_at > 1.month.ago) ? tracker : false
+    end
   end
 
 end
