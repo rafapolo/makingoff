@@ -1,6 +1,5 @@
 #todo
   .capas.metainfo{page: @page, tipo: params[:tipo], tipo_id: params[:id]}
-
     - @movies.each do |movie|
       .capa{id: movie.id, ano: movie.ano, urlized: movie.urlized}
         = capa_image_for movie
@@ -9,6 +8,7 @@
 
   %br
 
+  / todo: exibir paginação?
   / %hr
   / - @page = @page + 1
   / %p.page_info= "de #{(@page-1) * 50} a #{@page*50}"
