@@ -1,6 +1,3 @@
-:javascript
-  document.title = "Acervo | #{@percent_up}% ▲"
-
 - content_for :fora do
   - vermelho_count = Movie.vermelho.count
   - verde_count = Movie.verde.count
@@ -21,9 +18,9 @@
       %span= link_to 'laranja', '/status/laranja', class: 'border border-laranja', cor: 'laranja', count: laranja_count
       quando possui somente 1 semeador e precisa de atenção, em
       %span= link_to 'amarelo', '/status/amarelo', class: 'border border-amarelo', cor: 'amarelo', count: amarelo_count
-      quando possui entre 2 e 8 seeds ativos e
+      quando possui entre 2 e 4 seeds ativos e
       %span= link_to 'verde', '/status/verde', class: 'border border-verde', cor: 'verde', count: verde_count
-      mais de 8 garantidos.
+      mais de 5 seed garantidos.
 
       %p{style: 'padding: 0px'} Status:
       #status

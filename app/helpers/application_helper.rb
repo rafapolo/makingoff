@@ -22,7 +22,7 @@ module ApplicationHelper
         'border-vermelho'
       when 1
         'border-laranja'
-      when 2..6
+      when 2..4
         'border-amarelo'
       else
         'border-verde'

@@ -8,8 +8,8 @@ class Movie < ActiveRecord::Base
   scope :vivos, -> {where('count > 0')}
   scope :vermelho, -> {where('count = 0 or count is null')}
   scope :laranja, -> {where('count = 1')}
-  scope :amarelo, -> {where('count BETWEEN 2 AND 6')}
-  scope :verde, -> {where('count > 6')}
+  scope :amarelo, -> {where('count = 2 or count = 3')}
+  scope :verde, -> {where('count > 4')}
 
   validates_uniqueness_of :nome
 
