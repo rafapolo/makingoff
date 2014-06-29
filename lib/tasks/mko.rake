@@ -1,10 +1,10 @@
-# extrapolo
+# extrapolo.com
 
 namespace :mko do
   desc "Atualiza seeds count"
   task :update_seeds => :environment do
     Movie.all.each do |m|
-      if m.updated_at < 1.day.ago
+      if m.updated_at < 1.week.ago
         PeersWorker.perform_async(m.id)
       end
     end
@@ -16,6 +16,36 @@ namespace :mko do
         puts "Magnetizando #{m.original}".yellow
         m.update(magnet_link: m.torrent.magnet_link)
       end
+    end
+  end
+
+  desc "Cria .dot: pais > diretor > filme"
+  task :grafo => :environment do
+    def escape str
+      str.gsub('"', '')
+    end
+
+    puts "Gerando..."
+
+    File.open('grafo_MKO.dot', 'w') do |g|
+      g.puts "digraph G {"
+      g.puts 'nodesep = "2.0";'
+      g.puts 'ratio = "expand";'
+      g.puts 'splines = "true";'
+      g.puts 'node[ color  =  "#000000" , style  =  "filled" , penwidth  =  "2" , fillcolor  =  "lightgray"];'
+      g.puts 'overlap = "false";'
+
+      Country.all.each do |pais|
+        g.puts "\"p#{pais.id}\" [label = \"#{escape pais.nome}\", width = 10, pais = \"#{escape pais.nome}\"];"
+      end
+      Movie.all.each do |movie|
+        movie.countries.each do |pais|
+          g.puts "\"m#{movie.id}\" [label = \"#{escape movie.nome}\", pais = \"#{escape pais.nome}\"];"
+          g.puts "\"m#{movie.id}\" -> \"p#{pais.id}\" [style = \"bold\", fontcolor = \"#215E21\"];"
+        end
+      end
+      g.puts '}'
+      puts "Ok!"
     end
   end
 
