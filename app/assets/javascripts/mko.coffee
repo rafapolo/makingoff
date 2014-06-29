@@ -29,6 +29,15 @@ $ ->
       window.loading = false
     , 3000
 
+  $('.border').on 'click', (e) ->
+    e.preventDefault()
+    cor = $(this).attr('cor');
+    count = $(this).attr('count');
+    $('#meio').load "/status/#{cor}", ->
+      $('#info').remove()
+      window.to_load = parseInt(count)
+      updateTriggers()
+
   $(document).scroll ->
     # carrega próximas páginas se já não estiver carregando, ainda há mais para carregar e scroll está no fim da página
     return if !window.loading && (window.to_load > $('.capa').size()) && ($(window).scrollTop() > $(document).height() - $(window).height() - 50)

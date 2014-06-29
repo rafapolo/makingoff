@@ -12,7 +12,7 @@ Makingoff::Application.routes.draw do
   get '/autocomplete.json', to: "movies#autocomplete"
   get '/:urlized', to: "movies#show"
   get '/list/:tipo/:id', to: "movies#list"
-  get '/list/cor/:cor', to: "movies#cor"
+  get '/status/:cor', to: "movies#status"
   root 'movies#info'
 
 end

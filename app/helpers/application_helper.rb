@@ -28,4 +28,20 @@ module ApplicationHelper
         'border-verde'
       end
   end
+
+  def mko_link m
+    "http://makingoff.org/forum/index.php?showtopic=#{m.mko_id}"
+  end
+
+  def quantos_vivos
+    number_with_delimiter(Movie.vivos.count, delimiter: ".")
+  end
+
+  def movie_size m
+    number_to_human_size(m.torrent_size)
+  end
+
+  def quantos_vivos_size
+    number_to_human_size(Movie.vivos.sum(:torrent_size))
+  end
 end

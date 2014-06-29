@@ -17,11 +17,18 @@ body
   background-image: url("/assets/texture.png")
   font-family: 'Gudea', sans-serif
   font-size: 15px
-  min-width: 1035px
   min-height: 420px
 
 #meio
   padding-top: 5px
+
+#status
+  width: 449px
+  border: 1px solid gray
+  height: 20px
+  div
+    float: left
+    height: inherit
 
 .capas
   padding-top: 5px
@@ -34,6 +41,9 @@ body
 #raiz
   position: fixed
   bottom: 0px
+
+hr
+  margin: 10px 0px 10px 0px
 
 .capa
   width: 185px
@@ -64,6 +74,9 @@ body
   width: 100%
   height: 3px
 
+.border
+  color: white
+  text-decoration: none
 .border-preto
   border-bottom: 3px solid black
 .border-vermelho
@@ -102,9 +115,7 @@ body
   font-size: 13px
 
 #filters
-  padding: 10px
-  padding-bottom: 10px
-  border-bottom: 1px solid gray
+  padding: 10px 10px 0px 10px
 input
   margin-bottom: 10px
 #filter-ano
@@ -117,7 +128,7 @@ input
   font-size: 11px
 
 #meta
-  padding: 10px
+  padding: 0px 10px 10px 10px
   font-weight: bold
   text-align: center
   font-size: 13px
@@ -126,6 +137,7 @@ input
     text-decoration: none
 
 #info
+  text-align: justify
   display: none
   color: white
   padding-left: $menu-width
@@ -135,10 +147,10 @@ input
   margin: 0px auto
   border: 1px solid gray
   background-color: rgba(54,53,49,0.75)
-  margin-top: 50px
+  margin-top: 20px
   font-size: 16px
   text-shadow: 2px 1px black
-  padding: 20px
+  padding: 20px 20px 0px 20px
   p
     padding-left: 5px
     padding-bottom: 15px

@@ -1,26 +1,40 @@
+:javascript
+  document.title = "Acervo | #{@percent_up}% ▲"
+
 - content_for :fora do
+  - vermelho_count = Movie.vermelho.count
+  - verde_count = Movie.verde.count
+  - amarelo_count = Movie.amarelo.count
+  - laranja_count = Movie.laranja.count
+  - preto_count = Movie.preto.count
+  - vivos = Movie.vivos.count
+
   #info
-    %p
-      Tome; mais de 13 mil filmes raros, antigos, alternativos, fora do circuito comercial e documentários relevantes de diversas nacionalidades desde a invenção do Cinema, organizados há 7 anos por uma ativa comunidade de cinéfilos no Brasil através de um Fórum online, o MakingOff.org.br
+    %p= "Tome; #{quantos_vivos_size} de #{quantos_vivos} filmes raros, antigos, alternativos, fora do circuito comercial e documentários relevantes de diversas nacionalidades desde a invenção do Cinema, organizados há 8 anos por uma ativa comunidade de cinéfilos no Brasil através de um Fórum online, o MakingOff.org.br"
 
     %p
-      O Acervo ❤ MakingOff enquanto sistema concentra-se em aperfeiçoar e garantir a distribuição desses documentos audiovisuais através de táticas descentralizadoras, otimizando Torrents em Magnet Links, e desenvolvendo algoritmos especialistas que ajudam a garantir o acesso às obras quando detectam que o compartilhamento está "morrendo". Esse site não armazena nenhum arquivo, nem tem relação direta com a comunidade MKO, cuja organização dos dados, informações e riquíssimos debates são o foco e a inspiração.
+      O Acervo ❤ MakingOff enquanto sistema concentra-se em aperfeiçoar e garantir a distribuição desses documentos audiovisuais através de táticas descentralizadoras, otimizando Torrents em Magnet Links, e desenvolvendo algoritmos especializados que ajudam a garantir o acesso às obras quando detectam que o compartilhamento está "morrendo". Esse site não armazena nenhum arquivo, nem tem relação direta com a comunidade MKO, cuja organização dos dados, informações e riquíssimos debates são o foco e a inspiração.
 
     %p
       O formulário de pesquisa ao lado permite a busca exclusiva pelo nome do País, ou Categoria, ou Diretor, ou pelo nome do Filme, da mesma forma em que foram criados ao longo dos anos, mas aqui as capas das obras apresentam abaixo o sublinhado
-      %span.border-vermelho vermelho
+      %span= link_to 'vermelho', '/status/vermelho', class: 'border border-vermelho', cor: 'vermelho', count: vermelho_count
       quando não possuem nenhum semeador e estão inacessíveis,
-      %span.border-laranja laranja
-      quando possui entre 1 e 5 semeadores e precisam de atenção, em
-      %span.border-amarelo amarelo
-      entre 6 e 10 compartilhadores e
-      %span.border-verde verde
-      mais de 10 peers ativos. As capas com o rótulo
-      %span.border-preto preto
-      perderam os torrents iniciais e precisam ser repostos.
+      %span= link_to 'laranja', '/status/laranja', class: 'border border-laranja', cor: 'laranja', count: laranja_count
+      quando possui somente 1 semeador e precisa de atenção, em
+      %span= link_to 'amarelo', '/status/amarelo', class: 'border border-amarelo', cor: 'amarelo', count: amarelo_count
+      quando possui entre 2 e 8 seeds ativos e
+      %span= link_to 'verde', '/status/verde', class: 'border border-verde', cor: 'verde', count: verde_count
+      mais de 8 garantidos. As capas com o rótulo
+      %span= link_to 'preto', '/status/preto', class: 'border border-preto', cor: 'preto', count: preto_count
+      não possuem torrents que os conectem.
+
+      %p{style: 'padding: 0px'} Status:
+      #status
+        %div{style: "background-color: #CC0000; width: " + ((vermelho_count * 100) / vivos).to_s + '%'}
+        %div{style: "background-color: #FF6633; width: " + ((laranja_count * 100) / vivos).to_s + '%'}
+        %div{style: "background-color: #FFEE00; width: " + ((amarelo_count * 100) / vivos).to_s + '%'}
+        %div{style: "background-color: #009900; width: " + ((verde_count * 100) / vivos).to_s + '%'}
+        %div{style: "background-color: black; width: " + ((preto_count * 100) / vivos).to_s + '%'}
 
     %p{style: 'text-align: center'}
-      Em tempos de mídias corrompidas, não há tragédia maior que o esquecimento. Conheça. Cultive. Semeie. Discuta.
-
-    :javascript
-      document.title = "Acervo | #{@percent_up}% ▲"
+      Em tempos de mídias corrompidas não há tragédia maior que o esquecimento. Conheça. Cultive. Semeie. Discuta.

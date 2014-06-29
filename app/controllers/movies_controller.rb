@@ -5,6 +5,11 @@ class MoviesController < ApplicationController
     @percent_up = percent_up
   end
 
+  def status
+    @movies = Movie.send(params[:cor]).limit(50)
+    render 'list', layout: false
+  end
+
   def list
     @page = params[:page] || 1
     @page= @page.to_i
@@ -21,7 +26,7 @@ class MoviesController < ApplicationController
   end
 
   def show
-    #@movie.update(last_show: Time.now)
+    @movie.update(last_show: Time.now)
     if request.xhr? # ajax?
       render 'show', layout: false
     else
