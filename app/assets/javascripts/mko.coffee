@@ -1,8 +1,14 @@
-$ ->
+$(document).ready ->
   window.loading = true
 
+  window.onpopstate = (event) ->
+    was = document.location
+    tipo = if event.state && event.state.tipo then event.state.tipo else ''
+    wo = if tipo == 'filme' then 'meta' else 'meio'
+    $("##{wo}").load("##{was}")
+
   $(document).ajaxStart -> $('#loading').fadeIn(300)
-  $(document).ajaxStop -> $('#loading').fadeOut(300)
+  $(document).ajaxStop -> $('#loading').fadeOut(300, -> updateTriggers())
 
   $('#menu').fadeIn(5000)
   $('#info').fadeIn(1000)
@@ -10,11 +16,12 @@ $ ->
   updateTriggers = ->
     $('.capa').click ->
       id = $(this).attr('id')
-      urlized = $(this).attr('urlized')
+      urlized = '/filme/' + $(this).attr('urlized')
       titulo = $(this).children().next().text()
-      $("#meta").load "/#{urlized}", (data) ->
-        $(data).appendTo
-        history.pushState({ path: urlized }, '', urlized)
+      $("#meta").load urlized, (data) ->
+        #$(data).appendTo
+        document.title = "Acervo MKO ❤ #{titulo}"
+        history.pushState({ tipo: 'filme' }, '', urlized)
 
     # todo: mudar compormento em tablets - sem opacidade - pois não há MouseMove
     $('.capa>img')
@@ -29,14 +36,20 @@ $ ->
       window.loading = false
     , 3000
 
+  $('.logo').on 'click', (e) -> window.location = '/'
+
   $('.border').on 'click', (e) ->
     e.preventDefault()
     cor = $(this).attr('cor');
     count = $(this).attr('count');
-    $('#meio').load "/status/#{cor}", ->
+    urlized = "/status/#{cor}"
+    $('#meio').load urlized, ->
       $('#info').remove()
-      window.to_load = parseInt(count)
+      history.pushState({ tipo: 'status' }, '', urlized)
       updateTriggers()
+      #todo: not enought for /status pagination.
+      window.to_load = parseInt(count)
+
 
   $(document).scroll ->
     # carrega próximas páginas se já não estiver carregando, ainda há mais para carregar e scroll está no fim da página
@@ -64,10 +77,13 @@ $ ->
         window.scrollTo 0, 0 # go to top
         count = ui.item.count
         others = fields.filter (t) -> t != tipo
+        urlized = "/list/#{tipo}/#{ui.item.id}"
         $.each others, (i, tipo) -> $("##{tipo}").val('') # limpa outros campos
-        $('#meio').load "/list/#{tipo}/#{ui.item.id}", ->
-          updateTriggers()
+        $('#meio').load urlized, ->
+          history.pushState({ tipo: tipo }, '', urlized)
+          document.title = "Acervo MKO ❤ #{ui.item.label}"
           window.to_load = parseInt(count)
+          updateTriggers()
 
     .data("ui-autocomplete")._renderItem = (ul, item) ->
       tipo = $(document.activeElement).attr('id')
@@ -89,3 +105,5 @@ $ ->
 
   # updateAnos = -> $("#ano").text $("#anos-range").slider("values", 0) + " - " + $("#anos-range").slider("values", 1)
   # updateAnos()
+
+  updateTriggers()

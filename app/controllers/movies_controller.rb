@@ -7,7 +7,12 @@ class MoviesController < ApplicationController
 
   def status
     @movies = Movie.send(params[:cor]).limit(50)
-    render 'list', layout: false
+
+    if request.xhr? # ajax?
+      render 'list', layout: false
+    else
+      render 'list'
+    end
   end
 
   def list
@@ -19,15 +24,28 @@ class MoviesController < ApplicationController
     # only reply ajax with full params
     return if !tipo || !id || (!request.xhr? && Rails.env.production?)
 
-    @movies = (tipo == 'movie') ? [Movie.find(id)] :
-      tipo.capitalize.constantize.find(id).movies.page(@page).per(50)
+    obj = nil
+    @movies = nil
+    @titulo = nil
+    if tipo == 'movie'
+      @movies = [Movie.find(id)]
+    else
+      obj = tipo.capitalize.constantize.find(id)
+      @movies = obj.movies.page(@page).per(50)
+    end
 
-    render 'list', layout: false
+    if request.xhr? # ajax?
+      render 'list', layout: false
+    else
+      @title = "Acervo MKO ❤ #{obj.nome}"
+      render 'list'
+    end
   end
 
   def show
     @movie.update(last_show: Time.now)
     if request.xhr? # ajax?
+      # show metainfo
       render 'show', layout: false
     else
       @movies = [@movie]
