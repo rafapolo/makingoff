@@ -4,7 +4,7 @@ namespace :mko do
   desc "Atualiza seeds count"
   task :update_seeds => :environment do
     Movie.all.each do |m|
-      if m.updated_at < 1.week.ago
+      if m.updated_at < 1.day.ago
         PeersWorker.perform_async(m.id)
       end
     end

@@ -2,7 +2,7 @@
 # encoding: UTF-8
 # author: Rafael Polo
 # created_at 13.out.2009
-# updated_at 21.fev.2014
+# updated_at 1.jul.2014
 
 # TorrentInfo kernel v0.6
 # + SomBarato, BaixoGavea, MakingOff
@@ -38,21 +38,6 @@ class TorrentInfo
     Digest::SHA1.hexdigest(@torrent["info"].bencode)
   end
 
-  def announce_list
-    list = []
-    if @torrent['announce-list']
-      @torrent['announce-list'].each do |announce|
-        list << announce[0].strip if announce[0]
-      end
-    else
-      list << @torrent['announce']
-    end
-    list << 'udp://tracker.openbittorrent.com:80/announce'
-    list << 'udp://tracker.publicbt.com:80/announce'
-    list << 'udp://tracker.istole.it:80/announce'
-    list.uniq
-  end
-
   def size
     total_size = 0
     if @torrent['info']
@@ -78,29 +63,49 @@ class TorrentInfo
     magnet_uri
   end
 
-  def get_seeds_count
-    peers = []
-    announce_list.each do |t|
-      tracker = valid_tracker(t)
-      if tracker
-        begin
-          handler = Torckapi.tracker(t)
-          tracker_seeds = []
-          timeout(8) do
-            response = handler.scrape([hash])
-            tracker_seeds = response.data[hash][:seeders]
-            # atualiza tracker: ok
-            tracker.update(last_alive_at: DateTime.now)
-          end
-        rescue Exception => e
-          puts "#{t} => #{e}".red
-          # atualiza tracker: erro. TODO: morto?
-          tracker.update(last_error_at: DateTime.now)
-        else
-          puts "#{t} => #{tracker_seeds}".green if tracker_seeds > 0
-        end
-        peers << tracker_seeds
+  def announce_list
+    list = []
+    if @torrent['announce-list']
+      @torrent['announce-list'].each do |announce|
+        list << announce[0].strip if announce[0]
       end
+    else
+      list << @torrent['announce']
+    end
+    list.uniq
+  end
+
+  def get_seeds_count
+    trackers = []
+    announce_list.each do |t|
+      if tracker = valid_tracker(t)
+        trackers << tracker
+      end
+    end
+    # try all known live trackers
+    trackers += Tracker.last_alives
+
+    peers = []
+    trackers.uniq.uniq.each do |t|
+      begin
+        tracker = Tracker.find_by_url(tracker)
+        handler = Torckapi.tracker(t)
+        # todo: quais peers são seeds?
+        tracker_seeds = []
+        timeout(8) do
+          response = handler.scrape([hash])
+          tracker_seeds = response.data[hash][:seeders]
+          tracker.update(last_alive_at: DateTime.now)
+        end
+      rescue Exception => e
+        puts "#{t} => #{e}".red
+      end
+      if tracker_seeds > 0
+        puts "#{t} => #{tracker_seeds}".green
+      else
+        puts "#{t} => 0".red
+      end
+      peers << tracker_seeds
     end
     uniq_peers = peers.flatten.uniq.size
     puts "#{name} => #{uniq_peers} peers".yellow
