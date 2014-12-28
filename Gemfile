@@ -1,11 +1,11 @@
 source 'https://rubygems.org'
+ruby '2.1.1'
 
 # base
 gem 'rails'
 gem 'mysql2'        # database
 gem 'puma'          # server
 gem 'kaminari'      # pagination
-gem 'torckapi'      # handle torrent trackers
 
 # assets
 gem 'jquery-rails'
@@ -15,17 +15,17 @@ gem 'sass-rails'
 gem 'coffee-rails'
 gem 'therubyracer'
 gem 'uglifier'
-gem 'colored'
-
-# parallel jobs
-gem 'sidekiq'
-gem 'sinatra', require: false
-gem 'slim'
 
 group :development do
-  gem 'erd'
+  # parallel jobs
+  gem 'sidekiq'
+  gem 'sinatra', require: false
+  gem 'slim'
+  gem 'colored'
+  gem 'torckapi' # handle torrent trackers
   # gem 'pry'
   # gem 'pry-debugger'
+  gem 'erd'
   gem 'mina'
   gem 'mechanize'
   gem 'awesome_print'
