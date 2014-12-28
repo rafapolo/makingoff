@@ -5,11 +5,20 @@
 %hr
 %p= @movie.ano
 %br
-%p= @movie.countries.map{|g| g.nome}.join(', ')
+%p
+  - @movie.countries.each do |c|
+    = link_to c.nome, "/list/country/#{c.id}"
+    %span= ", " unless c == @movie.countries.last
 %br
-%p= @movie.genres.map{|g| g.nome}.join(', ')
+%p
+  - @movie.genres.each do |g|
+    = link_to g.nome, "/list/genre/#{g.id}"
+    %span= ", " unless g == @movie.genres.last
 %br
-%p= @movie.directors.map{|g| g.nome}.join(', ')
+%p
+  - @movie.directors.each do |d|
+    = link_to d.nome, "/list/director/#{d.id}"
+    %span= ", " unless d == @movie.directors.last
 %hr
 
 - if @movie.magnet_link
