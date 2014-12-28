@@ -3,7 +3,7 @@
 %p= "(#{@movie.original})" if @movie.nome != @movie.original && !@movie.original.empty?
 
 %hr
-%p= @movie.ano
+%p= link_to @movie.ano, "/ano/#{@movie.ano}"
 %br
 %p
   - @movie.countries.each do |c|

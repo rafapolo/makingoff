@@ -15,6 +15,19 @@ class MoviesController < ApplicationController
     end
   end
 
+  def ano
+    ano = params[:ano].to_i
+    return if !ano
+    @movies = Movie.where(ano: ano)
+    @title = "Acervo MKO ❤ Ano #{ano}"
+    @ano_status = "#{@movies.count} filmes em #{ano}"
+    if request.xhr? # ajax?
+      render 'list', layout: false
+    else
+      render 'list'
+    end
+  end
+
   def list
     @page = params[:page] || 1
     @page= @page.to_i
