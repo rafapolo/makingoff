@@ -22,7 +22,7 @@ class MoviesController < ApplicationController
     tipo = params[:tipo]
     id = params[:id]
     # only reply ajax with full params
-    return if !tipo || !id || !request.xhr?
+    return if !tipo || !id
 
     obj = nil
     @movies = nil
