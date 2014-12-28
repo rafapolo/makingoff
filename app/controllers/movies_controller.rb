@@ -63,6 +63,14 @@ class MoviesController < ApplicationController
     render json: data
   end
 
+  def sitemap
+    @movies = Movie.all.order(:created_at)
+    @directors = Director.all.order(:created_at)
+    headers["Content-Type"] = "text/xml"
+    headers["Last-Modified"] = @movies.last.created_at.httpdate || Time.now.httpdate
+    render 'sitemap', layout: false
+  end
+
   private
     def set_movie
       @movie = params[:urlized] ? Movie.find_by(urlized: params[:urlized]) : Movie.find(params[:id])

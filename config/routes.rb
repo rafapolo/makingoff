@@ -13,6 +13,7 @@ Makingoff::Application.routes.draw do
   get '/filme/:urlized', to: "movies#show"
   get '/list/:tipo/:id', to: "movies#list"
   get '/status/:cor', to: "movies#status"
+  get '/sitemap.xml' => "movies#sitemap"
   root 'movies#info'
 
 end
