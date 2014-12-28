@@ -16,11 +16,12 @@ gem 'coffee-rails'
 gem 'therubyracer'
 gem 'uglifier'
 
+# parallel jobs
+gem 'sidekiq'
+gem 'sinatra', require: false
+gem 'slim'
+
 group :development do
-  # parallel jobs
-  gem 'sidekiq'
-  gem 'sinatra', require: false
-  gem 'slim'
   gem 'colored'
   gem 'torckapi' # handle torrent trackers
   # gem 'pry'
