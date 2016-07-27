@@ -2,7 +2,7 @@ require 'sidekiq/web'
 
 Makingoff::Application.routes.draw do
 
-  mount Sidekiq::Web, at: "/sidekiq"
+  mount Sidekiq::Web, at: "/sidekiq" if Rails.env.development?
 
   resources :countries
   resources :genres
