@@ -3,26 +3,27 @@
   %head
     %title= @title ? @title : "Acervo ❤ MakingOff"
     %meta{charset: 'utf-8'}
-    %meta{:name=>"google-site-verification", :content=>"Ln8NqyxG8msw1vdQ4ASLmeomGXswy-2K6vwR76hVZXU"}
+    %meta{name: "google-site-verification", content:"Ln8NqyxG8msw1vdQ4ASLmeomGXswy-2K6vwR76hVZXU"}
+
     = stylesheet_link_tag "app", media: "all"
     = stylesheet_link_tag "http://fonts.googleapis.com/css?family=Gudea"
     = javascript_include_tag "application"
     = favicon_link_tag 'favicon.ico'
 
-    = @description = "Tome; mais de 13 mil filmes raros, antigos, alternativos, fora do circuito comercial e documentários relevantes de diversas nacionalidades desde a invenção do Cinema."
+    - @description = "Tome; mais de 13 mil filmes raros, antigos, alternativos, fora do circuito comercial e documentários relevantes de diversas nacionalidades desde a invenção do Cinema."
 
     %meta{name: "description", content: @description}
 
     // facebook
-    %meta{content: @title property: "og:title"}
-    %meta{content: @description property: "og:description"}
+    %meta{content: @title, property: "og:title"}
+    %meta{content: @description, property: "og:description"}
     //%meta{content: @header property: "og:image"}
     //%meta{content: @url property: "og:url"}
 
     // twitter
-    %meta{content: "@info_activism" name: "twitter:site}"
-    %meta{content: "@info_activism" name: "twitter:creator}"
-    %meta{content: "summary" name: "twitter:card}"
+    %meta{content: "@info_activism", name: "twitter:site"}
+    %meta{content: "@info_activism", name: "twitter:creator"}
+    %meta{content: "summary", name: "twitter:card"}
     //%meta{content: @header name: "twitter:image"}
     //%meta{content: @url name: "twitter:url"}
 
@@ -31,4 +32,4 @@
     %body
       = render 'movies/menu'
       #meio= yield
-      = yield :fora
+      = yield 'fora'

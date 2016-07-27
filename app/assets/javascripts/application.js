@@ -1,5 +1,4 @@
 //= require jquery
-//= require jquery.ui.autocomplete
-//= require jquery.ui.slider
+//= require jquery-ui
 //= require mko
 //= require analytics
