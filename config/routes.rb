@@ -1,8 +1,10 @@
-require 'sidekiq/web'
 
 Makingoff::Application.routes.draw do
 
-  mount Sidekiq::Web, at: "/sidekiq" if Rails.env.development?
+  if Rails.env.development?
+    require 'sidekiq/web'
+    mount Sidekiq::Web, at: "/sidekiq"
+  end
 
   resources :countries
   resources :genres
