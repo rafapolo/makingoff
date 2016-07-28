@@ -1,7 +1,8 @@
 !!!
 %html
   %head
-    %title= @title ? @title : "Acervo ❤ MakingOff"
+    - title = @title ? @title : "Acervo ❤ MakingOff"
+    %title= title
     %meta{charset: 'utf-8'}
     %meta{name: "google-site-verification", content:"Ln8NqyxG8msw1vdQ4ASLmeomGXswy-2K6vwR76hVZXU"}
 
@@ -15,17 +16,10 @@
     %meta{name: "description", content: @description}
 
     // facebook
-    %meta{content: @title, property: "og:title"}
+    %meta{content: title, property: "og:title"}
     %meta{content: @description, property: "og:description"}
     //%meta{content: @header property: "og:image"}
     //%meta{content: @url property: "og:url"}
-
-    // twitter
-    %meta{content: "@info_activism", name: "twitter:site"}
-    %meta{content: "@info_activism", name: "twitter:creator"}
-    %meta{content: "summary", name: "twitter:card"}
-    //%meta{content: @header name: "twitter:image"}
-    //%meta{content: @url name: "twitter:url"}
 
     = csrf_meta_tags
 
