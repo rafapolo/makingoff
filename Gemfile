@@ -1,5 +1,7 @@
 source 'https://rubygems.org'
 
+ruby '2.2.2'
+
 # base
 gem 'rails', '4.0.2'
 gem 'mysql2', '~> 0.3.16'  # database
