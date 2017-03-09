@@ -5,7 +5,7 @@ module ApplicationHelper
   end
 
   def capa_image_for m
-    path = "http://graficautopica.net/assets/capas/#{m.id}.jpg"
+    path = "http://extrapolo.com/assets/capas/#{m.id}.jpg"
     image_tag(path)
   end
 

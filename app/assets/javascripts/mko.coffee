@@ -28,7 +28,7 @@ $(document).ready ->
       .on 'mouseenter', -> $(this).animate(opacity: 1, 200)
       .on 'mouseleave', -> $(this).animate(opacity: 0.3, 200)
       .load -> $(this).fadeIn 1500
-      .error -> $(this).attr('src', 'http://graficautopica.net/assets/capas/00.jpg')
+      .error -> $(this).attr('src', 'http://extrapolo.com/assets/capas/00.jpg')
 
     # em 3 segundos exibe todas as capas e libera carregar próximas páginas
     setTimeout ->
